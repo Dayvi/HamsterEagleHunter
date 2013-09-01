@@ -1,5 +1,6 @@
 HamsterEagleHunter
 ==================
 
-HEH Game
-test
+Hamster, Eagle Hunter
+
+GibHub
