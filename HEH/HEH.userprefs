@@ -1,15 +1,16 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\Enemies\Enemy.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\Player\PlayerControls.cs">
     <Files>
-      <File FileName="Assets\Scripts\Camera\CameraOperator.cs" Line="63" Column="3" />
-      <File FileName="Assets\Scripts\Player\PlayerOne\PlayerOneGUI.cs" Line="12" Column="30" />
+      <File FileName="Assets\Scripts\Camera\CameraOperator.cs" Line="37" Column="33" />
       <File FileName="Assets\Scripts\DeathZone.cs" Line="20" Column="1" />
       <File FileName="Assets\Scripts\Player\PlayerOne\PlayerOneStats.cs" Line="18" Column="18" />
       <File FileName="Assets\Scripts\Enemies\FlyingEnemy\FlyingEnemyBehavior.cs" Line="7" Column="1" />
-      <File FileName="Assets\Scripts\Enemies\Enemy.cs" Line="32" Column="36" />
-      <File FileName="Assets\Scripts\Player\PlayerControls.cs" Line="108" Column="2" />
+      <File FileName="Assets\Scripts\Player\PlayerControls.cs" Line="27" Column="3" />
       <File FileName="Assets\Scripts\Enemies\FlyingEnemy\AttackRadiusTrigger.cs" Line="7" Column="3" />
+      <File FileName="Assets\Scripts\World\TerrainGenerator.cs" Line="439" Column="34" />
+      <File FileName="Assets\Scripts\Camera\CameraParent.cs" Line="18" Column="1" />
+      <File FileName="Assets\Scripts\Enemies\EnemyController.cs" Line="13" Column="22" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

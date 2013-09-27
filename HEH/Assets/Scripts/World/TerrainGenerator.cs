@@ -121,6 +121,32 @@ public class TerrainGenerator : MonoBehaviour
 		
 		#region Generate Areas and Landmark Positions
 		
+		#region STEP 2: GENERATE BOUNDARY AREA 
+		
+		// Generate a dot representation of a random polygon.
+		Vector2[] polygonPoints = GeneratePolygon(20, new Rect(20, 20, playableWidth - 20, playableHeight - 20));
+		List<Vector2> shapeOutline = new List<Vector2>();
+		
+		// Connect the dots using Bresenham's Line Algorithim
+		for (int i = 0; i < polygonPoints.Length; i++)
+		{
+			if (i != polygonPoints.Length - 1)
+				shapeOutline.AddRange(GenerateLine(polygonPoints[i], polygonPoints[i + 1]));
+			else
+				shapeOutline.AddRange(GenerateLine(polygonPoints[i], polygonPoints[0]));
+		}
+		
+		// Plot the line on the tile grid
+		foreach (Vector2 vec in shapeOutline)
+		{
+			tiles[(int)vec.x, (int)vec.y] = TileTypes.Grass;
+		}
+		
+		// Fill in the polygon
+		tiles = FloodFill(new Vector2(playableWidth / 2, playableHeight / 2), TileTypes.Grass, tiles, TileTypes.Boundary);
+		
+		#endregion
+		
 		#region STEP 1: MAYBE GENERATE A RIVER
 		
 		if (true)//Random.value < 0.5)
@@ -252,32 +278,6 @@ public class TerrainGenerator : MonoBehaviour
 				}
 			}
 		}
-		
-		#endregion
-		
-		#region STEP 2: GENERATE BOUNDARY AREA 
-		
-		// Generate a dot representation of a random polygon.
-		Vector2[] polygonPoints = GeneratePolygon(20, new Rect(20, 20, playableWidth - 20, playableHeight - 20));
-		List<Vector2> shapeOutline = new List<Vector2>();
-		
-		// Connect the dots using Bresenham's Line Algorithim
-		for (int i = 0; i < polygonPoints.Length; i++)
-		{
-			if (i != polygonPoints.Length - 1)
-				shapeOutline.AddRange(GenerateLine(polygonPoints[i], polygonPoints[i + 1]));
-			else
-				shapeOutline.AddRange(GenerateLine(polygonPoints[i], polygonPoints[0]));
-		}
-		
-		// Plot the line on the tile grid
-		foreach (Vector2 vec in shapeOutline)
-		{
-			tiles[(int)vec.x, (int)vec.y] = TileTypes.Grass;
-		}
-		
-		// Fill in the polygon
-		tiles = FloodFill(new Vector2(playableWidth / 2, playableHeight / 2), TileTypes.Grass, tiles, TileTypes.Boundary);
 		
 		#endregion
 		
