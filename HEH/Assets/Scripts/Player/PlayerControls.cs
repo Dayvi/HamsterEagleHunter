@@ -10,14 +10,17 @@ public class PlayerControls : MonoBehaviour
 	bool canJump;
 	bool canAttack = true;
 	public float health;
+	bool moved = false;
+	float idleAnimationTimer = 0;
 	
 	// Properties
 	public float maxHealth;
-	public float movementSpeed = 10;
+	public float movementSpeed = 0;
     public float turningSpeed = 60;
 	public float rotateSpeed;
 	public float jumpHeight;
 	public float attackDistance; // Later base this on the equipped weapon.
+	public float attackDamage;
 	
 	#endregion
 	
@@ -26,6 +29,7 @@ public class PlayerControls : MonoBehaviour
 	void Start()
 	{
 		health = maxHealth;
+		animation.Play("Idle_Reg");
 	}
 	
     void FixedUpdate() 
@@ -35,49 +39,57 @@ public class PlayerControls : MonoBehaviour
      	 	transform.Translate(0, 0, movementSpeed);
 			transform.eulerAngles = new Vector3(0, 0, 0);
 			movementSpeed = .1f;
+			moved = true;
 		}
 		if (Input.GetKey(KeyCode.S))
 		{
      	 	transform.Translate(0, 0, movementSpeed);
 			transform.eulerAngles = new Vector3(0, 180, 0);
 			movementSpeed = .1f;
+			moved = true;
 		}
 		if (Input.GetKey(KeyCode.D))
 		{
      	 	transform.Translate(0, 0, movementSpeed);
 			transform.eulerAngles = new Vector3(0, 90, 0);
 			movementSpeed = .1f;
+			moved = true;
 		}
 		if (Input.GetKey(KeyCode.A))
 		{
      	 	transform.Translate(0, 0, movementSpeed);
 			transform.eulerAngles = new Vector3(0, -90, 0);
 			movementSpeed = .1f;
+			moved = true;
 		}
 		
 		if (Input.GetKey(KeyCode.W) && Input.GetKey(KeyCode.D))
 		{
-			transform.Translate(0, 0, movementSpeed / 2);
+			transform.Translate(0, 0, movementSpeed / 4f);
 			transform.eulerAngles = new Vector3(0, 45, 0);
 			movementSpeed = .05f;
+			moved = true;
 		}
 		if(Input.GetKey(KeyCode.W) && Input.GetKey(KeyCode.A))
 		{
-			transform.Translate(0, 0, movementSpeed / 2);
+			transform.Translate(0, 0, movementSpeed / 4f);
 			transform.eulerAngles = new Vector3(0, -45, 0);
 			movementSpeed = .05f;
+			moved = true;
 		}
 		if(Input.GetKey(KeyCode.S) && Input.GetKey(KeyCode.A))
 		{
-			transform.Translate(0, 0, movementSpeed / 2);
+			transform.Translate(0, 0, movementSpeed / 4f);
 			transform.eulerAngles = new Vector3(0, -135, 0);
 			movementSpeed = .05f;
+			moved = true;
 		}
 		if(Input.GetKey(KeyCode.S) && Input.GetKey(KeyCode.D))
 		{
-			transform.Translate(0, 0, movementSpeed / 2);
+			transform.Translate(0, 0, movementSpeed / 4f);
 			transform.eulerAngles = new Vector3(0, 135, 0);
 			movementSpeed = .05f;
+			moved = true;
 		}
 		
 		if(Input.GetKey(KeyCode.Space))
@@ -93,6 +105,35 @@ public class PlayerControls : MonoBehaviour
 		{
 			Attack();
 		}
+		
+		if (moved != false)
+		{
+			animation.Play("Run");
+			moved = false;
+			idleAnimationTimer = 0;
+		}
+		else
+		{
+			if (idleAnimationTimer > 0)
+			{
+				idleAnimationTimer -= Time.deltaTime;
+			}
+			else
+			{
+				if (Random.value < 0.1)
+				{
+					animation.Play("Idle_Rare");
+					idleAnimationTimer = animation.GetClip("Idle_Rare").length;
+					Debug.Log("Idle_Rare playing");
+				}
+				else 
+				{
+					animation.Play("Idle_Reg");
+					idleAnimationTimer = animation.GetClip("Idle_Reg").length * 5;
+					Debug.Log("Idle_Reg playing");
+				}
+			}
+		}
     }
 	
 	void OnCollisionEnter(Collision collision)
@@ -103,13 +144,29 @@ public class PlayerControls : MonoBehaviour
 		}
 	}
 	
+	void OnTriggerEnter(Collider other)
+	{
+		// Handle Pickups
+		if (other.tag == "Pickup")
+		{
+			// Blue Berry
+			if (other.transform.parent.name.Contains("BlueBerry"))
+			{
+				Destroy(other.transform.parent.gameObject);
+				health += 0.5f;
+				Debug.Log("Picked up fruit");
+			}
+			
+			Debug.Log("Failed");
+		}
+	}
+	
 	#endregion
 	
 	#region Functions
 	
 	public void Attack()
 	{		
-		
 		// Get a list of all the enemies on the field that are within attacking distance
 		List<GameObject> enemies = new List<GameObject>();
 		enemies.AddRange(GameObject.FindGameObjectsWithTag("Enemy"));
@@ -130,7 +187,7 @@ public class PlayerControls : MonoBehaviour
 		
 		for (int i = 0; i < enemiesInRange.Count; i++)
 		{
-			enemiesInRange[i].GetComponent<EnemyController>().health -= 50;
+			enemiesInRange[i].GetComponent<EnemyController>().health -= attackDamage;
 		}
 		
 		/*RaycastHit hit;

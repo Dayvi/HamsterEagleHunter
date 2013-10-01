@@ -54,7 +54,8 @@
      <Compile Include="Assets\Scripts\Enemies\FlyingEnemy\AttackRadiusTrigger.cs" />
      <Compile Include="Assets\Scripts\Enemies\FlyingEnemy\FlyingEnemyBehavior.cs" />
      <Compile Include="Assets\Scripts\GUI\MainMenu.cs" />
-     <Compile Include="Assets\Scripts\GUI\PlayerOneGUI.cs" />
+     <Compile Include="Assets\Scripts\GUI\PlayerGUI.cs" />
+     <Compile Include="Assets\Scripts\Items\ProjectileController.cs" />
      <Compile Include="Assets\Scripts\MenuSelect.cs" />
      <Compile Include="Assets\Scripts\Player\Items\Inventory\InventoryGUI.cs" />
      <Compile Include="Assets\Scripts\Player\Items\Inventory\PlayerOne\PlayerOneInventory.cs" />

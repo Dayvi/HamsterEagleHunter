@@ -9,14 +9,13 @@ public class EnemyController : MonoBehaviour
 	
 	// Variables
 	private Vector3 dir;
-	[System.NonSerialized]
-	public float health;
+	private float attackTimer;
 	
-	// [System.NonSerialized]
-	public float attackTimer;
+	[System.NonSerialized] public float health;
+	[System.NonSerialized] public bool stunned = false;
 	
 	public float moveSpeed;
-	public float force = 500f;
+	public float knockBackForce = 500f;
 	public float maxHealth;
 	
 	public float attackSpeed;
@@ -24,8 +23,12 @@ public class EnemyController : MonoBehaviour
 	public float attackAngle;
 	public float attackDamage;
 	
+	public float berryDropPercentage;
+	
 	// References
+	[System.NonSerialized]
 	public Transform playerTransform;
+	public GameObject berryPrefab;
 	
 	#endregion
 	
@@ -39,39 +42,66 @@ public class EnemyController : MonoBehaviour
 	}
 	
 	// Update is called once per frame
-	void Update () 
+	void Update() 
 	{
-		if(!worldPeace)
+		if (!stunned)
 		{
-			dir = playerTransform.position - transform.position;
-			transform.Translate(dir * moveSpeed * Time.deltaTime, Space.World);
-			//transform.LookAt(playerTransform);
-		}
+			if(!worldPeace)
+			{
+				dir = playerTransform.position - transform.position;
+				dir.y = 0;
+				transform.Translate(dir * moveSpeed * Time.deltaTime, Space.World);
+				//transform.LookAt(playerTransform);
+			}
 		
-		if (attackTimer > 0)
-			attackTimer -= Time.deltaTime;
-		else if (Attack())
+			if (attackTimer > 0)
+				attackTimer -= Time.deltaTime;
+			else if (Attack())
+			{
+				attackTimer = attackSpeed; 
+			}
+		
+			if (health <= 0)
+				stunned = true;
+		}	
+		else // Play animations and do post death things.
 		{
-			attackTimer = attackSpeed; 
-		}
-		
-		if (health <= 0)
+			// Randomly drop a berry
+			if (Random.value < berryDropPercentage / 100)
+			{
+				GameObject berry = (GameObject)GameObject.Instantiate(berryPrefab, transform.position, Quaternion.Euler(Vector3.zero));
+				
+				// Find the direction to send the berry
+				Vector3 direction = -playerTransform.position - transform.position;	
+				direction.y = 0;
+				
+				// Later make the final blow relative to how much force is applied
+				berry.rigidbody.AddForce(direction.normalized * 5, ForceMode.Impulse);
+			}
+			
 			Destroy(this.gameObject);
+		}
 	}
 	
 	void OnCollisionEnter(Collision collision)
 	{
-		Vector3 dir = collision.transform.position - transform.position;
-		dir.y = 0;
-		
-		if(collision.rigidbody)
+		if (!stunned)
 		{
-			collision.rigidbody.AddForce(dir.normalized * force);
-		}
+			Vector3 dir = collision.transform.position - transform.position;
+			
+			dir.y = 0;
 		
-		if(collision.gameObject.tag == "Player")
-		{
-			PlayerOneStats.damageTaken += 1;
+			if(collision.rigidbody)
+			{
+				collision.rigidbody.AddForce(dir.normalized * knockBackForce, ForceMode.Impulse);
+			}
+		
+			// Stats
+			if(collision.gameObject.tag == "Player")
+			{	
+				// Fix this
+			 	PlayerOneStats.damageTaken += 1;
+			}
 		}
 	}
 	
