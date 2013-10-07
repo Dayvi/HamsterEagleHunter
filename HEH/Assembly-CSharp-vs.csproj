@@ -57,10 +57,8 @@
      <Compile Include="Assets\Scripts\GUI\PlayerGUI.cs" />
      <Compile Include="Assets\Scripts\Items\ProjectileController.cs" />
      <Compile Include="Assets\Scripts\MenuSelect.cs" />
-     <Compile Include="Assets\Scripts\Player\Items\Inventory\InventoryGUI.cs" />
-     <Compile Include="Assets\Scripts\Player\Items\Inventory\PlayerOne\PlayerOneInventory.cs" />
-     <Compile Include="Assets\Scripts\Player\Items\PickUpItems\PickUpWatch.cs" />
-     <Compile Include="Assets\Scripts\Player\Items\PickUpItems\PickUpYellowBerry.cs" />
+     <Compile Include="Assets\Scripts\Player\Items\BaseItem.cs" />
+     <Compile Include="Assets\Scripts\Player\Items\Inventory.cs" />
      <Compile Include="Assets\Scripts\Player\PlayerControls.cs" />
      <Compile Include="Assets\Scripts\Player\PlayerOne\PlayerOneStats.cs" />
      <Compile Include="Assets\Scripts\PlayerSelect.cs" />

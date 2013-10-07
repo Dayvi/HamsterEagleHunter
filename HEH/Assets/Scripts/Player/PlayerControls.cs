@@ -34,28 +34,28 @@ public class PlayerControls : MonoBehaviour
 	
     void FixedUpdate() 
 	{
-		if (Input.GetKey(KeyCode.W))
+		if (Input.GetAxis("Vertical") > 0)
 		{
      	 	transform.Translate(0, 0, movementSpeed);
 			transform.eulerAngles = new Vector3(0, 0, 0);
 			movementSpeed = .1f;
 			moved = true;
 		}
-		if (Input.GetKey(KeyCode.S))
+		if (Input.GetAxis("Vertical") < 0)
 		{
      	 	transform.Translate(0, 0, movementSpeed);
 			transform.eulerAngles = new Vector3(0, 180, 0);
 			movementSpeed = .1f;
 			moved = true;
 		}
-		if (Input.GetKey(KeyCode.D))
+		if (Input.GetAxis("Horizontal") > 0)
 		{
      	 	transform.Translate(0, 0, movementSpeed);
 			transform.eulerAngles = new Vector3(0, 90, 0);
 			movementSpeed = .1f;
 			moved = true;
 		}
-		if (Input.GetKey(KeyCode.A))
+		if (Input.GetAxis("Horizontal") < 0)
 		{
      	 	transform.Translate(0, 0, movementSpeed);
 			transform.eulerAngles = new Vector3(0, -90, 0);
@@ -63,28 +63,28 @@ public class PlayerControls : MonoBehaviour
 			moved = true;
 		}
 		
-		if (Input.GetKey(KeyCode.W) && Input.GetKey(KeyCode.D))
+		if (Input.GetAxis("Vertical") > 0 && Input.GetAxis("Horizontal") > 0)
 		{
 			transform.Translate(0, 0, movementSpeed / 4f);
 			transform.eulerAngles = new Vector3(0, 45, 0);
 			movementSpeed = .05f;
 			moved = true;
 		}
-		if(Input.GetKey(KeyCode.W) && Input.GetKey(KeyCode.A))
+		if(Input.GetAxis("Vertical") > 0 && Input.GetAxis("Horizontal") < 0)
 		{
 			transform.Translate(0, 0, movementSpeed / 4f);
 			transform.eulerAngles = new Vector3(0, -45, 0);
 			movementSpeed = .05f;
 			moved = true;
 		}
-		if(Input.GetKey(KeyCode.S) && Input.GetKey(KeyCode.A))
+		if(Input.GetAxis("Vertical") < 0 && Input.GetAxis("Horizontal") < 0)
 		{
 			transform.Translate(0, 0, movementSpeed / 4f);
 			transform.eulerAngles = new Vector3(0, -135, 0);
 			movementSpeed = .05f;
 			moved = true;
 		}
-		if(Input.GetKey(KeyCode.S) && Input.GetKey(KeyCode.D))
+		if(Input.GetAxis("Vertical") < 0 && Input.GetAxis("Horizontal") > 0)
 		{
 			transform.Translate(0, 0, movementSpeed / 4f);
 			transform.eulerAngles = new Vector3(0, 135, 0);
