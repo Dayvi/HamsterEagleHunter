@@ -39,6 +39,9 @@ public class TerrainGenerator : MonoBehaviour
 	enum Areas { None, Start };
 	enum TileTypes { Boundary, Grass, Dirt, River }
 	
+	// Debug Variables
+	public bool lockTerrain; // Locks the terrain, for testing purposes only.
+	
 	#endregion
 	
 	#region Unity Functions
@@ -88,7 +91,9 @@ public class TerrainGenerator : MonoBehaviour
 	
 	void OnDestroy()
 	{
-		Reset();
+		// If not locked
+		if (!lockTerrain)
+			Reset();
 	}
 	
 	#endregion
@@ -429,7 +434,7 @@ public class TerrainGenerator : MonoBehaviour
 		{
 			for (int y = 0; y < terrainAlphaHeight; y++)
 			{
-				textureAlphas[x, y, 0] = 1;
+				//textureAlphas[x, y, 0] = 0.1f;
 				
 				if (x < playableWidth && y < playableHeight)
 				{

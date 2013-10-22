@@ -11,5 +11,5 @@ public class ProjectileController : MonoBehaviour
 	#endregion
 		
 	#region 	
-	#endregion, 
+	#endregion
 }

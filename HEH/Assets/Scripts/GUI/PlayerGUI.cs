@@ -23,7 +23,7 @@ public class PlayerGUI : MonoBehaviour
 		int heartPosition = 10;
 		int textureWidth = 60;
 		
-		for (int i = 0; i < (int)player.GetComponent<PlayerControls>().health; i++)
+		for (int i = 0; i < (int)player.GetComponent<PlayerController>().health; i++)
 		{
 			GUI.DrawTexture(new Rect(heartPosition, 10, textureWidth, 120), heartTexture, ScaleMode.ScaleToFit, true, 1.0F);
 			heartPosition += textureWidth + 3;

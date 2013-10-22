@@ -120,7 +120,7 @@ public class EnemyController : MonoBehaviour
 				
 			if (direction < attackAngle)
 			{
-				player.GetComponent<PlayerControls>().health -= attackDamage;
+				player.GetComponent<PlayerController>().Damage(attackDamage);
 				return true;
 			}
 		}
